@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+    <title>MTN ADMIN</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="{%  static 'mtn/img/favicon.png'%}" rel="icon">
+    <link href="{%  static 'mtn/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="{%  static 'mtn/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{%  static 'mtn/vendor/bootstrap-icons/bootstrap-icons.css '%}" rel="stylesheet">
+    <link href="{%  static 'mtn/vendor/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+    <link href="{%  static 'mtn/vendor/quill/quill.snow.css'%}" rel="stylesheet">
+    <link href="{%  static 'mtn/vendor/quill/quill.bubble.css'%}" rel="stylesheet">
+    <link href="{%  static 'mtn/vendor/remixicon/remixicon.css'%}" rel="stylesheet">
+    <link href="{%  static 'mtn/vendor/simple-datatables/style.css'%}" rel="stylesheet">
+  
+    <!-- Template Main CSS File -->
+    <link href="{%  static 'mtn/css/style.css'%}" rel="stylesheet">
+  
+    
+</head>
+
+
+
+
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="row gy-4 d-flex justify-content-between">
+  <div class=" col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center alert alert-{{ message.tags }} warning alert-dismissible fade show" role="alert">
+      <strong>{{ message }}</strong>
+      {% if user.is_authenticated %}
+      <h2 data-aos="fade-up">{{ request.user.username }}!</h2>
+         
+      {% endif %}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<a href="{% url 'admin_panel'%}"> Log in as admin </a>
+
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'mtn/vendor/purecounter/purecounter_vanilla.js '%}"></script>
+  <script src="{% static 'mtn/vendor/bootstrap/js/bootstrap.bundle.min.js '%}"></script>
+  <script src="{% static 'mtn/vendor/glightbox/js/glightbox.min.js '%}"></script>
+  <script src="{% static 'mtn/vendor/swiper/swiper-bundle.min.js'%}"></script>
+  <script src="{% static 'mtn/vendor/php-email-form/validate.js'%}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'mtn/js/main.js '%}"></script>
+
+</body>
+
+</html>

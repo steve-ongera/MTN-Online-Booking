@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTN SACCO | Book Now</title>
+        <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/aos/aos.css'%}" rel="stylesheet">
+    <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet">
+    
+</head>
+<body>
+     <!-- alert message -->
+      {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} warning alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+      {% endif %}
+     
+          <div class="minibus-container">
+            <div class="minibus">
+
+                <h4>View Seats</h4>
+                <h5> Booked --> <img  src="{% static 'assets/img/normal.svg' %}"> <br>Not Booked --> <img  src="{% static 'assets/img/vip.svg' %}"></h5>
+                
+                
+                    <div id="seats">
+                        
+                        {% for seat in seats %}
+                            {% if seat.is_reserved %}
+                            <img   src="{% static 'assets/img/normal.svg' %}"> <span>{{ seat.seat_number }}</span>
+                            {% else%}
+                            <img   src="{% static 'assets/img/vip.svg' %}"> <span>{{ seat.seat_number }}</span>
+                            
+                            {% endif %}
+                        {% endfor %}
+
+                     
+                    </div>
+                    <br>
+                    <br>
+                    <a class="buy-btn"  href={% url 'home'%}> Go Back</a>
+
+                </div>
+            </div>
+
+                          
+    
+    
+
+    <script>
+        let selectedSeats = [];
+
+        function selectSeat(element) {
+            const seatNumber = element.getAttribute('data-seat');
+            if (selectedSeats.includes(seatNumber)) {
+                selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+                element.style.backgroundColor = 'green';
+            } else {
+                selectedSeats.push(seatNumber);
+                element.style.backgroundColor = 'blue';
+            }
+        }
+
+        function reserveSeats() {
+            fetch('/reserve/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ seats: selectedSeats })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      selectedSeats.forEach(seat => {
+                          document.querySelector(`[data-seat="${seat}"]`).style.backgroundColor = 'red';
+                      });
+                      selectedSeats = [];
+                  }
+              });
+        }
+    </script>
+</body>
+</html>

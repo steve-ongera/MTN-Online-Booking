@@ -1,0 +1,115 @@
+.minibus-container {
+    margin:50px;
+    width: 300px; /* Adjust the width as needed */
+    height: auto;
+    padding: 1.2px;
+    background-color: #333;
+    border-radius: 10px; /* Adjust the value for more or less curved ends */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .minibus {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff; /* Set the background color for the minibus */
+    padding: 20px;
+    border-radius: 10px; /* Add a slight border radius for the minibus */
+  }
+  
+  /* Rest of the CSS remains the same */
+  
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+ 
+  .seat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+  }
+  
+  .seat img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .seat span {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  .seat.selected img {
+    filter: brightness(0.5); /* Dim the icon for selected seats */
+  }
+  
+  /* Rest of the CSS remains the same */
+  
+  .empty {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    margin: 15px;
+    border-radius: 80%;
+  }
+  
+  .steering-wheel {
+    width: 50px;
+    height: 50px;
+    background-color: hwb(0 94% 3%);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    border-radius: 50%;
+  }
+
+  .steering-wheel {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+  }
+
+  .selected  img path:first-child {
+    background-color: hsl(231, 14%, 90%);
+    fill: hsl(237, 90%, 52%);
+  }
+
+  
+
+  .seat.selected img path:first-child {
+    fill: hsl(109, 90%, 52%); /* Change this color to your desired selection color */
+  }
+
+  .seat.available{
+    color:white;
+  }
+  
+  
+  /* Rest of the CSS remains the same */
+
+.buy-btn {
+    display: inline-block;
+    padding: 12px 35px;
+    border-radius: 4px;
+    color: var(--color-primary);
+    transition: none;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    transition: 0.3s;
+    border: 1px solid var(--color-primary);
+    background: rgb(39, 8, 239);
+    color: white;
+    
+}
+  
