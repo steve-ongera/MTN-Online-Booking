@@ -75,7 +75,8 @@ class Seat(models.Model):
     reservation_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"Bus: {self.bus.name}, Seat: {self.seat_number} (Reserved: {self.is_reserved})"
+          bus_name = self.bus.name if self.bus else "No Bus Assigned"
+          return f"Seat: {self.seat_number} (Bus: {bus_name}, Reserved: {self.is_reserved})"
 
     class Meta:
         constraints = [

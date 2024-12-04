@@ -144,9 +144,23 @@ def success(request):
 
 
 # Create your views here.
+from django.shortcuts import render
+from .models import Seat, Booking
+
+from django.shortcuts import render
+from .models import Seat, Booking
+
 def home(request):
+    # Get all seats
     seats = Seat.objects.all()
-    return render(request, 'bus.html' , {'seats': seats})
+
+    # Get the seat IDs of booked seats
+    booked_seats = Booking.objects.filter(seat__isnull=False).values_list('seat__id', flat=True)
+
+    return render(request, 'bus.html', {
+        'seats': seats,
+        'booked_seats': booked_seats
+    })
 
 
 def index(request):

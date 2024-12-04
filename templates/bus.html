@@ -1,94 +1,144 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>MTN SACCO </title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-  <!-- Template Main CSS File -->
-  <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet">
-
- 
+   <meta charset="utf-8">
+   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+   <title>MTN SACCO</title>
+   <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet">
+   <style>
+       .seat.booked {
+           opacity: 0.5;
+           cursor: not-allowed;
+       }
+       .seat.selected {
+           background-color: green;
+       }
+       .booked-overlay {
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           color: red;
+           font-weight: bold;
+       }
+   </style>
 </head>
-
 <body>
+   <div class="minibus-container">
+       <div class="minibus">
+           <div class="row">
+               <div class="seat" data-seat="1">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 1">
+                   <span>1</span>
+               </div>
+               <div class="seat" data-seat="2">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 2">
+                   <span>2</span>
+               </div>
+               <div class="empty"></div>
+               <img src="{% static 'assets/img/stear.svg' %}" alt="" class="steering-wheel">
+           </div>
+           <div class="row">
+               <div class="empty"></div>
+               <div class="seat" data-seat="3">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 3">
+                   <span>3</span>
+               </div>
+               <div class="seat" data-seat="4">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 4">
+                   <span>4</span>
+               </div>
+               <div class="seat" data-seat="5">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 5">
+                   <span>5</span>
+               </div>
+           </div>
+           <div class="row">
+               <div class="seat" data-seat="6">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 6">
+                   <span>6</span>
+               </div>
+               <div class="empty"></div>
+               <div class="seat" data-seat="7">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 7">
+                   <span>7</span>
+               </div>
+               <div class="seat" data-seat="8">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 8">
+                   <span>8</span>
+               </div>
+           </div>
+           <div class="row">
+               <div class="seat" data-seat="9">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 9">
+                   <span>9</span>
+               </div>
+               <div class="seat" data-seat="10">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 10">
+                   <span>10</span>
+               </div>
+               <div class="seat" data-seat="11">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 11">
+                   <span>11</span>
+               </div>
+               <div class="seat" data-seat="12">
+                   <img src="{% static 'assets/img/seat.svg' %}" alt="Seat 12">
+                   <span>12</span>
+               </div>
+           </div>
+       </div>
+   </div>
 
-  
-<body>
-  <div class="minibus-container">
-    <div class="minibus">
-      <div class="row">
-        <div class="seat" data-seat="1"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 1"><span>1</span></div>
-        <div class="seat" data-seat="2"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 2"><span>2</span></div>
-        <div class="empty"></div>
-        <img src="{% static 'assets/img/stear.svg' %}" alt="" class="steering-wheel">
-      </div>
-      <div class="row">
-        <div class="empty"></div>
-        <div class="seat" data-seat="3"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 3"><span>3</span></div>
-        <div class="seat" data-seat="4"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 4"><span>4</span></div>
-        <div class="seat" data-seat="5"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 5"><span>5</span></div>
-      </div>
-      <div class="row">
-        <div class="seat" data-seat="6"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 6"><span>6</span></div>
-        <div class="empty"></div>
-        <div class="seat" data-seat="7"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 7"><span>7</span></div>
-        <div class="seat" data-seat="8"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 8"><span>8</span></div>
-      </div>
-      <div class="row">
-        <div class="seat" data-seat="9"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 9"><span>9</span></div>
-        <div class="seat" data-seat="10"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 10"><span>10</span></div>
-        <div class="seat" data-seat="11"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 11"><span>11</span></div>
-        <div class="seat" data-seat="12"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 12"><span>12</span></div>
-      </div>
-    </div>
-  </div>
+   <button class='buy-btn' onclick="redirectToBooking()">Book Selected Seat</button>
+   <a class='buy-btn' href="{% url 'index' %}">Home</a>
 
-  <button class='buy-btn' onclick="redirectToBooking()">Book Selected Seat</button>
-  
+   <script>
+       const bookedSeats = {{ booked_seats|safe }};
 
-  <a class='buy-btn' href={% url 'index'%}> Home</a>
-  
+       document.querySelectorAll('.seat').forEach(seat => {
+           const seatNumber = seat.getAttribute('data-seat');
+           if (bookedSeats.includes(parseInt(seatNumber))) {
+               seat.classList.add('booked');
+               seat.style.cursor = 'not-allowed';
+               
+               const bookedOverlay = document.createElement('div');
+               bookedOverlay.textContent = 'Booked';
+               bookedOverlay.classList.add('booked-overlay');
+               seat.appendChild(bookedOverlay);
+           }
+       });
 
+       let selectedSeat = null;
 
+       function selectSeat(element) {
+           const seatNumber = element.getAttribute('data-seat');
+           if (selectedSeat === seatNumber) {
+               selectedSeat = null;
+               element.classList.remove('selected');
+           } else {
+               if (selectedSeat) {
+                   document.querySelector(`[data-seat="${selectedSeat}"]`).classList.remove('selected');
+               }
+               selectedSeat = seatNumber;
+               element.classList.add('selected');
+           }
+       }
 
-  <script>
-    let selectedSeat = null;
+       document.querySelectorAll('.seat').forEach(seat => {
+           if (!seat.classList.contains('booked')) {
+               seat.addEventListener('click', () => selectSeat(seat));
+           }
+       });
 
-    function selectSeat(element) {
-        const seatNumber = element.getAttribute('data-seat');
-        if (selectedSeat === seatNumber) {
-            selectedSeat = null;
-            element.classList.remove('selected');
-        } else {
-            if (selectedSeat) {
-                document.querySelector(`[data-seat="${selectedSeat}"]`).classList.remove('selected');
-            }
-            selectedSeat = seatNumber;
-            element.classList.add('selected');
-        }
-    }
-
-    document.querySelectorAll('.seat').forEach(seat => {
-        seat.addEventListener('click', () => selectSeat(seat));
-    });
-
-    function redirectToBooking() {
-        if (!selectedSeat) {
-            alert("Kindly Please select a seat.");
-            return;
-        }
-        const url = `{% url 'book_seats' %}?seat=${selectedSeat}`;
-        window.location.href = url;
-    }
-
-   
-  </script>
-
-  
+       function redirectToBooking() {
+           if (!selectedSeat) {
+               alert("Kindly Please select a seat.");
+               return;
+           }
+           const url = `{% url 'book_seats' %}?seat=${selectedSeat}`;
+           window.location.href = url;
+       }
+   </script>
 </body>
 </html>
