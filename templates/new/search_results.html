@@ -5,12 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Buses</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+    <style>
+        /* General Reset */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px auto;
+            max-width: 600px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        li:hover {
+            transform: scale(1.02);
+        }
+        li a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+        .no-results {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
     <h1>Search for Buses</h1>
     <form method="GET" action="{% url 'search_buses' %}">
         <label for="boarding_location">Boarding Location:</label>
-        <select id="boarding_location" name="boarding_location">
+        <select id="boarding_location" name="boarding_location" required>
             <option value="" disabled selected>Select Boarding Location</option>
             {% for location in boarding_locations %}
                 <option value="{{ location.name }}">{{ location.name }}</option>
@@ -18,7 +91,7 @@
         </select>
 
         <label for="destination">Destination:</label>
-        <select id="destination" name="destination">
+        <select id="destination" name="destination" required>
             <option value="" disabled selected>Select Destination</option>
             {% for dest in destinations %}
                 <option value="{{ dest.name }}">{{ dest.name }}</option>
@@ -26,7 +99,7 @@
         </select>
 
         <label for="date_of_travel">Date of Travel:</label>
-        <input type="text" id="date_of_travel" name="date_of_travel" placeholder="Select date">
+        <input type="text" id="date_of_travel" name="date_of_travel" placeholder="Select date" required>
 
         <button type="submit">Search</button>
     </form>
@@ -45,15 +118,31 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>No buses available for the selected route and date.</p>
+        <p class="no-results">No buses available for the selected route and date.</p>
     {% endif %}
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
-    <script>
-        flatpickr("#date_of_travel", {
-            dateFormat: "Y-m-d"
-        });
-    </script>
+<script>
+    // Initialize the date picker with a 7-day limit
+    flatpickr("#date_of_travel", {
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        maxDate: new Date().fp_incr(14),
+        disableMobile: true,
+    });
+
+    // Smooth animations for form interaction
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const boarding = document.getElementById("boarding_location");
+        const destination = document.getElementById("destination");
+        const date = document.getElementById("date_of_travel");
+
+        if (!boarding.value || !destination.value || !date.value) {
+            alert("Please fill in all fields before searching.");
+            e.preventDefault();
+        }
+    });
+</script>
+
 </body>
 </html>
