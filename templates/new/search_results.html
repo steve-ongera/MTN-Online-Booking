@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Buses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+</head>
+<body>
+    <h1>Search for Buses</h1>
+    <form method="GET" action="{% url 'search_buses' %}">
+        <label for="boarding_location">Boarding Location:</label>
+        <select id="boarding_location" name="boarding_location">
+            <option value="" disabled selected>Select Boarding Location</option>
+            {% for location in boarding_locations %}
+                <option value="{{ location.name }}">{{ location.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="destination">Destination:</label>
+        <select id="destination" name="destination">
+            <option value="" disabled selected>Select Destination</option>
+            {% for dest in destinations %}
+                <option value="{{ dest.name }}">{{ dest.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date_of_travel">Date of Travel:</label>
+        <input type="text" id="date_of_travel" name="date_of_travel" placeholder="Select date">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Available Buses</h2>
+    {% if buses %}
+        <ul>
+            {% for bus in buses %}
+                <li>
+                    <a href="{% url 'bus_detail' bus.pk %}">
+                        {{ bus.bus.name }}
+                    </a> 
+                    | {{ bus.boarding_location.name }} -> {{ bus.destination.name }}
+                    | Departure: {{ bus.departure_time }} | Date: {{ bus.date_of_travel }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No buses available for the selected route and date.</p>
+    {% endif %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <script>
+        flatpickr("#date_of_travel", {
+            dateFormat: "Y-m-d"
+        });
+    </script>
+</body>
+</html>

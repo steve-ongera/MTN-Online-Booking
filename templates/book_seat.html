@@ -149,33 +149,26 @@
           <div class="col-lg-8">
             
 
-            <form method="post" action="{% url 'confirm_booking' %}"  class="mtn" >
-                {% csrf_token %}
-                <input type="hidden" name="seat_number" value="{{ seat.seat_number }}">
-                <input type="hidden" name="fare" value="{{ fare }}">
-
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                      <input type="text"  class="form-control" id="name" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                      <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
-                    </div>
-                  </div>
-             
-
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name="phone" id="phone" placeholder="phone" required>
-                </div>
-
-                  <div class="form-group mt-3">
-                    <input type="text" class="form-control" name="identification_number" id="identification_number" placeholder="ID Number" required>
-                  </div>
-                  <br>
-                  <br>
-               <button  class="text-center" type="submit">Pay</button>
-            </form>
-
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="seat_number" value="{{ seat.seat_number }}">
+              <input type="hidden" name="fare" value="{{ fare }}">
+          
+              <label for="name">Full Name:</label>
+              <input type="text" name="name" id="name" required>
+          
+              <label for="email">Email:</label>
+              <input type="email" name="email" id="email" required>
+          
+              <label for="phone">Phone:</label>
+              <input type="text" name="phone" id="phone" required>
+          
+              <label for="identification_number">ID Number:</label>
+              <input type="text" name="identification_number" id="identification_number" required>
+          
+              <button type="submit">Pay</button>
+          </form>
+          
           </div><!-- End Contact Form -->
 
         </div>
