@@ -1,0 +1,33 @@
+<h2>Booking Details for {{ schedule }}</h2>
+
+<h3>Bookings for this Schedule:</h3>
+{% if bookings %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Seat Number</th>
+                <th>Fare</th>
+                <th>Identification Number</th>
+                <th> Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.name }}</td>
+                    <td>{{ booking.email }}</td>
+                    <td>{{ booking.phone }}</td>
+                    <td>{{ booking.seat.seat_number }}</td>
+                    <td>KSh {{ booking.fare }}</td>
+                    <td>{{ booking.identification_number }}</td>
+                    <td>  <a href="{% url 'booking_detail' booking.id %}">View  Details</a> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No bookings have been made for this schedule yet.</p>
+{% endif %}

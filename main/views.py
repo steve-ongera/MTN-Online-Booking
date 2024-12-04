@@ -313,3 +313,97 @@ def payment_confirmation(request, booking_id):
     except Booking.DoesNotExist:
         # If the booking doesn't exist, show an error message
         return render(request, 'error.html', {'message': 'Booking not found.'})
+
+
+# views.py
+def travel_schedules_view(request):
+    schedules = TravelSchedule.objects.all().select_related('bus', 'boarding_location', 'destination')
+    return render(request, 'new/travel_schedules.html', {'schedules': schedules})
+
+def schedule_bookings_view(request):
+    schedule_id = request.GET.get('schedule_id')
+    schedule = TravelSchedule.objects.get(id=schedule_id)
+    
+    # Get bookings for this specific schedule
+    bookings = Booking.objects.filter(
+        seat__bus_schedule=schedule
+    )
+    
+    return render(request, 'new/schedule_bookings.html', {
+        'schedule': schedule, 
+        'bookings': bookings
+    })
+
+from django.shortcuts import render
+from .models import TravelSchedule, Booking
+from .forms import TravelScheduleSearchForm
+from datetime import date
+
+def search_travel_schedule(request):
+    schedules = []
+    bookings = []
+    
+    # Initialize date_of_travel as None
+    date_of_travel = None
+    
+    # Check if the form is submitted with the required fields
+    if request.method == 'GET':
+        # Get the values from the request
+        boarding_location = request.GET.get('boarding_location')
+        destination = request.GET.get('destination')
+        
+        # Extract year, month, and day from the request and combine them into a date object
+        year = request.GET.get('date_of_travel_year')
+        month = request.GET.get('date_of_travel_month')
+        day = request.GET.get('date_of_travel_day')
+        
+        if year and month and day:
+            try:
+                # Create the date object
+                date_of_travel = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+                date_of_travel = date.fromisoformat(date_of_travel)
+            except ValueError:
+                # If there is an error in creating the date (invalid format), set date_of_travel to None
+                date_of_travel = None
+        
+        # If the required parameters are provided, filter schedules based on search criteria
+        if boarding_location and destination and date_of_travel:
+            schedules = TravelSchedule.objects.filter(
+                boarding_location_id=boarding_location,
+                destination_id=destination,
+                date_of_travel=date_of_travel
+            )
+
+            # Fetch bookings that match the found schedules
+            bookings = Booking.objects.filter(seat__bus_schedule__in=schedules)
+
+    form = TravelScheduleSearchForm(request.GET or None)
+    
+    return render(request, 'new/search_travel_schedule.html', {
+        'form': form,
+        'schedules': schedules,
+        'bookings': bookings,
+    })
+
+
+
+def booking_detail(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    return render(request, 'new/booking_detail.html', {
+        'booking': booking
+    })
+
+
+
+def schedule_booking_details(request, schedule_id):
+    # Fetch the specific schedule by its ID
+    schedule = get_object_or_404(TravelSchedule, id=schedule_id)
+    
+    # Get all bookings related to this schedule
+    bookings = Booking.objects.filter(seat__bus_schedule=schedule)
+    
+    return render(request, 'new/schedule_booking_details.html', {
+        'schedule': schedule,
+        'bookings': bookings
+    })

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Schedules</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        .schedule-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .schedule-item {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-item h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .schedule-item p {
+            margin: 5px 0;
+        }
+
+        .schedule-item a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .schedule-item a:hover {
+            text-decoration: underline;
+        }
+
+        .no-schedules {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Search Bus Schedules</h1>
+    </header>
+
+    <div class="container">
+        <form method="GET">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+
+        {% if schedules %}
+            <h2>Schedules Found:</h2>
+            <ul class="schedule-list">
+                {% for schedule in schedules %}
+                    <li class="schedule-item">
+                        <h3>{{ schedule }}</h3>
+                        <p><strong> (Available Seats: {{ schedule.seats_left }})</p>
+                        <a href="{% url 'schedule_booking_details' schedule.id %}">View Schedule Details</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-schedules">No schedules found for your criteria.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+
+<!-- schedule_bookings.html -->
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Bookings for {{ schedule.bus.name }}</h1>
+    <h2>Route: {{ schedule.boarding_location.name }} to {{ schedule.destination.name }}</h2>
+    <h3>Date: {{ schedule.date_of_travel }} at {{ schedule.departure_time }}</h3>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Seat</th>
+                <th>Fare</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.name }}</td>
+                <td>{{ booking.email }}</td>
+                <td>{{ booking.phone }}</td>
+                <td>{{ booking.seat.seat_number }}</td>
+                <td>{{ booking.fare }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

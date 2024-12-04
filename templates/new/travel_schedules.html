@@ -1,0 +1,35 @@
+<!-- travel_schedules.html -->
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Travel Schedules</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Bus</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Departure Time</th>
+                <th>Bookings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td>{{ schedule.bus.name }}</td>
+                <td>{{ schedule.boarding_location.name }}</td>
+                <td>{{ schedule.destination.name }}</td>
+                <td>{{ schedule.date_of_travel }}</td>
+                <td>{{ schedule.departure_time }}</td>
+                <td>
+                    <a href="{% url 'schedule_bookings' %}?schedule_id={{ schedule.id }}">
+                        View Bookings
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

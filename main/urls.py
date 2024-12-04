@@ -27,6 +27,13 @@ urlpatterns = [
     path('payment/confirmation/<int:booking_id>/', views.payment_confirmation, name='payment_confirmation'),
    
     path('success/', views.success, name='success'),
+
+    path('travel-schedules/', views.travel_schedules_view, name='travel_schedules'),
+    path('schedule-bookings/', views.schedule_bookings_view, name='schedule_bookings'),
+    path('search_schedule/', views.search_travel_schedule, name='search_travel_schedule'),
+    path('booking_detail/<int:booking_id>/', views.booking_detail, name='booking_detail'),
+    path('schedule_booking_details/<int:schedule_id>/', views.schedule_booking_details, name='schedule_booking_details'),
+
     
     
 ]
