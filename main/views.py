@@ -55,7 +55,6 @@ def confirm_booking(request, bus_id):
 
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
-
 def book_seats(request, bus_id):
     seat_number = request.GET.get('seat')
 
@@ -72,10 +71,14 @@ def book_seats(request, bus_id):
         messages.error(request, "The selected seat does not exist for this bus.")
         return redirect('seat_reservation', bus_id=bus_id)
 
-    # Fetch the fare from TravelSchedule
+    # Fetch the TravelSchedule and related details
     travel_schedule = get_object_or_404(TravelSchedule, bus_id=bus_id)
-    fare = travel_schedule.fare  # Dynamically retrieve fare
+    fare = travel_schedule.fare
     bus_name = travel_schedule.bus.name
+    boarding_location = travel_schedule.boarding_location.name
+    destination = travel_schedule.destination.name
+    date_of_travel = travel_schedule.date_of_travel
+    departure_time = travel_schedule.departure_time
 
     # If the user submits the booking form
     if request.method == 'POST':
@@ -95,7 +98,7 @@ def book_seats(request, bus_id):
             name=name,
             email=email,
             phone=phone,
-            fare=fare,  # Save the dynamically retrieved fare
+            fare=fare,
             identification_number=identification_number
         )
 
@@ -104,7 +107,17 @@ def book_seats(request, bus_id):
         return redirect('payment_confirmation', booking_id=booking.id)
 
     # Display the booking page
-    return render(request, 'book_seat.html', {'seat': seat, 'fare': fare, 'bus_name': bus_name, 'bus_id': bus_id})
+    context = {
+        'seat': seat,
+        'fare': fare,
+        'bus_name': bus_name,
+        'boarding_location': boarding_location,
+        'destination': destination,
+        'date_of_travel': date_of_travel,
+        'departure_time': departure_time,
+        'bus_id': bus_id,
+    }
+    return render(request, 'book_seat.html', context)
 
 
 

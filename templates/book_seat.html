@@ -103,7 +103,7 @@
         <div class="container">
           <ol>
             <li><a href="{% url 'index'%}">Home</a></li>
-            <li><a href="{% url 'home'%}">Choose Seat</a></li>
+            <li><a href="#">seat number {{ seat.seat_number }}</a></li>
             <li>Bookings</li>
           </ol>
         </div>
@@ -123,7 +123,7 @@
             <div class="info-item d-flex">
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
-                <h4>From:  Muranga</h4>
+                <h4>From:  {{ boarding_location }}</h4>
                 
               </div>
             </div><!-- End Info Item -->
@@ -131,7 +131,23 @@
             <div class="info-item d-flex">
               <i class="bi bi-geo-alt flex-shrink-0"></i>
               <div>
-                <h4>To: Nairobi</h4>
+                <h4>To:  {{ destination }}</h4>
+                
+              </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h4>Date :  {{ date_of_travel }}</h4>
+                
+              </div>
+            </div><!-- End Info Item -->
+
+            <div class="info-item d-flex">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h4>Time:  {{ departure_time }} </h4>
                 
               </div>
             </div><!-- End Info Item -->
@@ -149,23 +165,33 @@
           <div class="col-lg-8">
             
 
-            <form method="POST">
+            <form method="POST" class="mtn">
               {% csrf_token %}
               <input type="hidden" name="seat_number" value="{{ seat.seat_number }}">
               <input type="hidden" name="fare" value="{{ fare }}">
+
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text"  class="form-control" id="name" name="name" placeholder="Full Names" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email" class="form-control" id="email" name="email" placeholder=" Email" required>
+                </div>
+              </div>
+
+
+              <div class="form-group mt-3">
+                  <input type="text" class="form-control" name="phone" id="phone" placeholder="phone" required>
+              </div>
+
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="identification_number" id="identification_number" placeholder="ID Number" required>
+              </div>
           
-              <label for="name">Full Name:</label>
-              <input type="text" name="name" id="name" required>
-          
-              <label for="email">Email:</label>
-              <input type="email" name="email" id="email" required>
-          
-              <label for="phone">Phone:</label>
-              <input type="text" name="phone" id="phone" required>
-          
-              <label for="identification_number">ID Number:</label>
-              <input type="text" name="identification_number" id="identification_number" required>
-          
+              <br>
+              <br>
+
+              
               <button type="submit">Pay</button>
           </form>
           
