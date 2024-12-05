@@ -316,10 +316,15 @@ def bus_detail(request, pk):
     
     # Fetch all seats related to the bus schedule (assuming you have a Seat model)
     seats = Seat.objects.filter(bus_schedule=bus_schedule)
+    # Get available seat numbers
+    available_seats = seats.filter(is_reserved=False).values_list('seat_number', flat=True)
+    
+
     
     context = {
         'bus_schedule': bus_schedule,
-        'seats': seats
+        'seats': seats,
+        'available_seats': available_seats,  # Pass available seat numbers to the template
     }
     
     return render(request, 'new/bus_detail.html', context)
