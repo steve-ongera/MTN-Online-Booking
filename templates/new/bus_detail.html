@@ -15,10 +15,20 @@
  
 </head>
 
-<body>
 
   
 <body>
+
+  <!-- Display Bus Schedule Details -->
+  <div>
+    <h2>Bus Name: {{ bus_schedule.bus.name }}</h2>
+    <p>From: {{ bus_schedule.boarding_location.name }}</p>
+    <p>To: {{ bus_schedule.destination.name }}</p>
+    <p>Date of Travel: {{ bus_schedule.date_of_travel }}</p>
+    <p>Departure Time: {{ bus_schedule.departure_time }}</p>
+</div>
+
+
   <div class="minibus-container">
     <div class="minibus">
       <div class="row">
