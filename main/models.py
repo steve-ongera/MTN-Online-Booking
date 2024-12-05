@@ -46,6 +46,7 @@ class TravelSchedule(models.Model):
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE)
     date_of_travel = models.DateField()
     departure_time = models.TimeField()
+    fare = models.CharField(max_length=50 , null=True , blank=True)
 
     def __str__(self):
         return f"{self.bus.name} | {self.boarding_location.name} -> {self.destination.name} on {self.date_of_travel}"
