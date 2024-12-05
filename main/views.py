@@ -54,6 +54,8 @@ def confirm_booking(request, bus_id):
 
 
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
+
 def book_seats(request, bus_id):
     seat_number = request.GET.get('seat')
 
@@ -70,13 +72,17 @@ def book_seats(request, bus_id):
         messages.error(request, "The selected seat does not exist for this bus.")
         return redirect('seat_reservation', bus_id=bus_id)
 
+    # Fetch the fare from TravelSchedule
+    travel_schedule = get_object_or_404(TravelSchedule, bus_id=bus_id)
+    fare = travel_schedule.fare  # Dynamically retrieve fare
+    bus_name = travel_schedule.bus.name
+
     # If the user submits the booking form
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         identification_number = request.POST.get('identification_number')
-        fare = 300  # The fare can be dynamically calculated based on the destination
 
         # Mark the seat as reserved
         seat.is_reserved = True
@@ -89,7 +95,7 @@ def book_seats(request, bus_id):
             name=name,
             email=email,
             phone=phone,
-            fare=fare,
+            fare=fare,  # Save the dynamically retrieved fare
             identification_number=identification_number
         )
 
@@ -98,8 +104,8 @@ def book_seats(request, bus_id):
         return redirect('payment_confirmation', booking_id=booking.id)
 
     # Display the booking page
-    fare = 300  # Example fare calculation
-    return render(request, 'book_seat.html', {'seat': seat, 'fare': fare, 'bus_id': bus_id})
+    return render(request, 'book_seat.html', {'seat': seat, 'fare': fare, 'bus_name': bus_name, 'bus_id': bus_id})
+
 
 
 @csrf_exempt
