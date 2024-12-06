@@ -189,6 +189,8 @@
     background-color: #e65c50;
 }
 
+
+
 </style>
 </head>
 <body>
@@ -264,10 +266,10 @@
                                 </div>
                             </div>
                             <div class="bus-details">
-                                <p><strong>{{ bus.departure_time }} {{ bus.date_of_travel }}</strong> 08:30 AM</p>
+                                <p><strong>{{ bus.date_of_travel }}</strong> {{ bus.departure_time }} </p>
                                 <p><strong>Rating:</strong> <span class="stars">★★★☆☆</span></p>
-                                <p><strong>Seats:</strong> <span class="seats">1 Seat Available</span></p>
-                                <p><strong>Normal:</strong> KES 1,600</p>
+                                <p><strong>Seats:</strong> <span class="seats">{{ bus.available_seats }} Seat Available</span></p>
+                                <p><strong>Normal:</strong> KES {{ bus.fare }}</p>
                             </div>
                             <div class="bus-actions">
                                 <a href="{% url 'bus_detail' bus.pk %}">

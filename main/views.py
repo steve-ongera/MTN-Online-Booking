@@ -303,6 +303,12 @@ def search_buses(request):
     boarding_locations = BoardingLocation.objects.all()
     destinations = Destination.objects.all()
 
+    # Add available seats calculation to each bus schedule
+    for bus in buses:
+        total_seats = Seat.objects.filter(bus_schedule=bus).count()
+        reserved_seats = Seat.objects.filter(bus_schedule=bus, is_reserved=True).count()
+        bus.available_seats = total_seats - reserved_seats  # Add available seats as an attribute
+
     return render(request, 'new/search_results.html', {
         'buses': buses,
         'boarding_locations': boarding_locations,
