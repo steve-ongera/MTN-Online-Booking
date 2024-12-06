@@ -329,14 +329,89 @@ def bus_detail(request, pk):
     
     return render(request, 'new/bus_detail.html', context)
 
+# views.py
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from .models import Booking
+from .utils import generate_pdf_receipt, send_receipt_email
+
 def payment_confirmation(request, booking_id):
     try:
+        # Get the booking object
         booking = Booking.objects.get(id=booking_id)
-        # You can add logic here to handle payment details or show a success page.
+
+        # Generate the PDF receipt
+        pdf_buffer = generate_pdf_receipt(booking)
+
+        # Send the receipt as an email attachment
+        send_receipt_email(booking, pdf_buffer)
+
+        # Render the payment confirmation page
         return render(request, 'payment_confirmation.html', {'booking': booking})
+
     except Booking.DoesNotExist:
-        # If the booking doesn't exist, show an error message
         return render(request, 'error.html', {'message': 'Booking not found.'})
+
+
+# views.py
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.pdfgen import canvas
+from .models import Booking
+
+def download_receipt(request, booking_id):
+    # Get the booking object based on the booking_id
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    # Create the response object with PDF content type
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="receipt_{booking.id}.pdf"'
+
+    # Create a PDF object
+    p = canvas.Canvas(response, pagesize=letter)
+
+    # Header (Company Information)
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(200, 770, "Your Company Name")
+    p.setFont("Helvetica", 10)
+    p.drawString(200, 755, "Address: 123 Main Street, City, Country")
+    p.drawString(200, 740, "Phone: +1234567890")
+    p.drawString(200, 725, "Email: support@yourcompany.com")
+
+    # Receipt Title
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(200, 700, "Receipt")
+
+    # Booking Details Section
+    p.setFont("Helvetica", 10)
+    p.drawString(50, 675, f"Booking ID: {booking.id}")
+    p.drawString(50, 660, f"Name: {booking.name}")
+    p.drawString(50, 645, f"Email: {booking.email}")
+    p.drawString(50, 630, f"Phone: {booking.phone}")
+    p.drawString(50, 615, f"Seat Number: {booking.seat.seat_number if booking.seat else 'No seat assigned'}")
+    p.drawString(50, 600, f"Identification Number: {booking.identification_number}")
+
+    # Fare Section
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(50, 570, f"Total Fare: ${booking.fare}")
+
+    # Footer
+    p.setFont("Helvetica", 8)
+    p.drawString(50, 50, "Thank you for booking with us!")
+    p.drawString(50, 40, "Visit us again for more exciting offers.")
+
+    # Draw a line to separate footer
+    p.setStrokeColor(colors.black)
+    p.setLineWidth(0.5)
+    p.line(50, 60, 550, 60)
+
+    # Save the PDF
+    p.showPage()
+    p.save()
+
+    return response
+
 
 
 # views.py
