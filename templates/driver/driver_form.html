@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>{% if driver %}Update{% else %}Create{% endif %} Driver</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if driver %}Save changes{% else %}Create driver{% endif %}</button>
+  </form>
+  <a href="{% url 'driver_list' %}">Back to list</a>
+{% endblock %}

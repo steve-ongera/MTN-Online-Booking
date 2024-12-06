@@ -34,7 +34,40 @@ urlpatterns = [
     path('search_schedule/', views.search_travel_schedule, name='search_travel_schedule'),
     path('booking_detail/<int:booking_id>/', views.booking_detail, name='booking_detail'),
     path('schedule_booking_details/<int:schedule_id>/', views.schedule_booking_details, name='schedule_booking_details'),
-
-    
-    
+    #travel schedule 
+    path('travel_schedule/', views.travel_schedule_list, name='travel_schedule_list'),  # List
+    path('travel_schedule/create/', views.travel_schedule_create, name='travel_schedule_create'),  # Create
+    path('travel_schedule/<int:schedule_id>/update/', views.travel_schedule_update, name='travel_schedule_update'),  # Update
+    path('travel_schedule/<int:schedule_id>/delete/', views.travel_schedule_delete, name='travel_schedule_delete'),  # Delete
+    #bus views
+    path('bus/', views.bus_list, name='bus_list'),  # List view
+    path('bus/create/', views.bus_create, name='bus_create'),  # Create view
+    path('bus/<int:bus_id>/update/', views.bus_update, name='bus_update'),  # Update view
+    path('bus/<int:bus_id>/delete/', views.bus_delete, name='bus_delete'),  # Delete view
+    #drivers
+    path('driver/', views.driver_list, name='driver_list'),  # List view
+    path('driver/create/', views.driver_create, name='driver_create'),  # Create view
+    path('driver/<int:driver_id>/update/', views.driver_update, name='driver_update'),  # Update view
+    path('driver/<int:driver_id>/delete/', views.driver_delete, name='driver_delete'),  # Delete view
+    #destination
+    path('destination/', views.destination_list, name='destination_list'),  # List view
+    path('destination/create/', views.destination_create, name='destination_create'),  # Create view
+    path('destination/<int:destination_id>/update/', views.destination_update, name='destination_update'),  # Update view
+    path('destination/<int:destination_id>/delete/', views.destination_delete, name='destination_delete'),  # Delete view
+    #boarding
+    path('boarding_location/', views.boarding_location_list, name='boarding_location_list'),  # List view
+    path('boarding_location/create/', views.boarding_location_create, name='boarding_location_create'),  # Create view
+    path('boarding_location/<int:location_id>/update/', views.boarding_location_update, name='boarding_location_update'),  # Update view
+    path('boarding_location/<int:location_id>/delete/', views.boarding_location_delete, name='boarding_location_delete'),  # Delete view
+    #booking
+    path('booking/', views.booking_list, name='booking_list'),  # List view
+    path('booking/create/', views.booking_create, name='booking_create'),  # Create view
+    path('booking/<int:booking_id>/update/', views.booking_update, name='booking_update'),  # Update view
+    path('booking/<int:booking_id>/delete/', views.booking_delete, name='booking_delete'),  # Delete view
+    #non staff
+    path('non_staff/', views.non_staff_list, name='non_staff_list'),  # List view
+    path('non_staff/create/', views.non_staff_create, name='non_staff_create'),  # Create view
+    path('non_staff/<int:non_staff_id>/update/', views.non_staff_update, name='non_staff_update'),  # Update view
+    path('non_staff/<int:non_staff_id>/delete/', views.non_staff_delete, name='non_staff_delete'),  # Delete view
+  
 ]

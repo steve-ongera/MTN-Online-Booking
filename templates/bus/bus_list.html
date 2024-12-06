@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Buses</h1>
+  <ul>
+    {% for bus in buses %}
+      <li>
+        {{ bus }}  
+        <a href="{% url 'bus_update' bus.id %}">Edit</a>
+        <a href="{% url 'bus_delete' bus.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'bus_create' %}">Create a new bus</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Bookings</h1>
+  <ul>
+    {% for booking in bookings %}
+      <li>
+        {{ booking.name }} - {{ booking.email }} - {{ booking.seat.seat_number }}
+        <a href="{% url 'booking_update' booking.id %}">Edit</a>
+        <a href="{% url 'booking_delete' booking.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'booking_create' %}">Create a new booking</a>
+{% endblock %}

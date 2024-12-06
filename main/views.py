@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect 
 from .models import Destination, BoardingLocation , Seat
-from .forms import SeatBookingForm
+from .forms import *
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -512,3 +512,294 @@ def schedule_booking_details(request, schedule_id):
         'schedule': schedule,
         'bookings': bookings
     })
+
+#travel schedule views 
+
+def travel_schedule_create(request):
+    if request.method == 'POST':
+        form = TravelScheduleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('travel_schedule_list')  # Redirect to the list after creating
+    else:
+        form = TravelScheduleForm()
+    return render(request, 'travel_schedule/travel_schedule_form.html', {'form': form})
+
+
+def travel_schedule_list(request):
+    schedules = TravelSchedule.objects.all()
+    return render(request, 'travel_schedule/travel_schedule_list.html', {'schedules': schedules})
+
+
+
+def travel_schedule_update(request, schedule_id):
+    schedule = get_object_or_404(TravelSchedule, id=schedule_id)
+    
+    if request.method == 'POST':
+        form = TravelScheduleForm(request.POST, instance=schedule)
+        if form.is_valid():
+            form.save()
+            return redirect('travel_schedule_list')  # Redirect to the list after updating
+    else:
+        form = TravelScheduleForm(instance=schedule)
+    
+    return render(request, 'travel_schedule/travel_schedule_form.html', {'form': form, 'schedule': schedule})
+
+
+
+def travel_schedule_delete(request, schedule_id):
+    schedule = get_object_or_404(TravelSchedule, id=schedule_id)
+    if request.method == 'POST':
+        schedule.delete()
+        return redirect('travel_schedule_list')  # Redirect to the list after deletion
+    return render(request, 'travel_schedule/travel_schedule_confirm_delete.html', {'schedule': schedule})
+
+
+#Bus views
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Bus
+from .forms import BusForm
+
+# Create View
+def bus_create(request):
+    if request.method == 'POST':
+        form = BusForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bus_list')  # Redirect to the bus list after creating
+    else:
+        form = BusForm()
+    return render(request, 'bus/bus_form.html', {'form': form})
+
+# List View
+def bus_list(request):
+    buses = Bus.objects.all()
+    return render(request, 'bus/bus_list.html', {'buses': buses})
+
+# Update View
+def bus_update(request, bus_id):
+    bus = get_object_or_404(Bus, id=bus_id)
+    
+    if request.method == 'POST':
+        form = BusForm(request.POST, instance=bus)
+        if form.is_valid():
+            form.save()
+            return redirect('bus_list')  # Redirect to the bus list after updating
+    else:
+        form = BusForm(instance=bus)
+    
+    return render(request, 'bus/bus_form.html', {'form': form, 'bus': bus})
+
+# Delete View
+def bus_delete(request, bus_id):
+    bus = get_object_or_404(Bus, id=bus_id)
+    if request.method == 'POST':
+        bus.delete()
+        return redirect('bus_list')  # Redirect to the bus list after deletion
+    return render(request, 'bus/bus_confirm_delete.html', {'bus': bus})
+
+
+#drivers views
+
+
+# Create View
+def driver_create(request):
+    if request.method == 'POST':
+        form = DriverForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('driver_list')  # Redirect to the driver list after creating
+    else:
+        form = DriverForm()
+    return render(request, 'driver/driver_form.html', {'form': form})
+
+# List View
+def driver_list(request):
+    drivers = Driver.objects.all()
+    return render(request, 'driver/driver_list.html', {'drivers': drivers})
+
+# Update View
+def driver_update(request, driver_id):
+    driver = get_object_or_404(Driver, id=driver_id)
+    
+    if request.method == 'POST':
+        form = DriverForm(request.POST, instance=driver)
+        if form.is_valid():
+            form.save()
+            return redirect('driver_list')  # Redirect to the driver list after updating
+    else:
+        form = DriverForm(instance=driver)
+    
+    return render(request, 'driver/driver_form.html', {'form': form, 'driver': driver})
+
+# Delete View
+def driver_delete(request, driver_id):
+    driver = get_object_or_404(Driver, id=driver_id)
+    if request.method == 'POST':
+        driver.delete()
+        return redirect('driver_list')  # Redirect to the driver list after deletion
+    return render(request, 'driver/driver_confirm_delete.html', {'driver': driver})
+
+
+#destination 
+# Create View
+def destination_create(request):
+    if request.method == 'POST':
+        form = DestinationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('destination_list')  # Redirect to the destination list after creating
+    else:
+        form = DestinationForm()
+    return render(request, 'destination/destination_form.html', {'form': form})
+
+# List View
+def destination_list(request):
+    destinations = Destination.objects.all()
+    return render(request, 'destination/destination_list.html', {'destinations': destinations})
+
+# Update View
+def destination_update(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+    
+    if request.method == 'POST':
+        form = DestinationForm(request.POST, instance=destination)
+        if form.is_valid():
+            form.save()
+            return redirect('destination_list')  # Redirect to the destination list after updating
+    else:
+        form = DestinationForm(instance=destination)
+    
+    return render(request, 'destination/destination_form.html', {'form': form, 'destination': destination})
+
+# Delete View
+def destination_delete(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+    if request.method == 'POST':
+        destination.delete()
+        return redirect('destination_list')  # Redirect to the destination list after deletion
+    return render(request, 'destination/destination_confirm_delete.html', {'destination': destination})
+
+
+
+#boarding
+
+# Create View
+def boarding_location_create(request):
+    if request.method == 'POST':
+        form = BoardingLocationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('boarding_location_list')  # Redirect to the list of boarding locations
+    else:
+        form = BoardingLocationForm()
+    return render(request, 'boarding_location/boarding_location_form.html', {'form': form})
+
+# List View
+def boarding_location_list(request):
+    boarding_locations = BoardingLocation.objects.all()
+    return render(request, 'boarding_location/boarding_location_list.html', {'boarding_locations': boarding_locations})
+
+# Update View
+def boarding_location_update(request, location_id):
+    location = get_object_or_404(BoardingLocation, id=location_id)
+    
+    if request.method == 'POST':
+        form = BoardingLocationForm(request.POST, instance=location)
+        if form.is_valid():
+            form.save()
+            return redirect('boarding_location_list')  # Redirect after update
+    else:
+        form = BoardingLocationForm(instance=location)
+    
+    return render(request, 'boarding_location/boarding_location_form.html', {'form': form, 'location': location})
+
+# Delete View
+def boarding_location_delete(request, location_id):
+    location = get_object_or_404(BoardingLocation, id=location_id)
+    if request.method == 'POST':
+        location.delete()
+        return redirect('boarding_location_list')  # Redirect after deletion
+    return render(request, 'boarding_location/boarding_location_confirm_delete.html', {'location': location})
+
+
+#booking views
+
+# Create View
+def booking_create(request):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('booking_list')  # Redirect to the list of bookings
+    else:
+        form = BookingForm()
+    return render(request, 'booking/booking_form.html', {'form': form})
+
+# List View
+def booking_list(request):
+    bookings = Booking.objects.all()
+    return render(request, 'booking/booking_list.html', {'bookings': bookings})
+
+# Update View
+def booking_update(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    if request.method == 'POST':
+        form = BookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('booking_list')  # Redirect after update
+    else:
+        form = BookingForm(instance=booking)
+    
+    return render(request, 'booking/booking_form.html', {'form': form, 'booking': booking})
+
+# Delete View
+def booking_delete(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('booking_list')  # Redirect after deletion
+    return render(request, 'booking/booking_confirm_delete.html', {'booking': booking})
+
+
+#non staff views
+
+# Create View
+def non_staff_create(request):
+    if request.method == 'POST':
+        form = NonStaffForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('non_staff_list')  # Redirect to the list view
+    else:
+        form = NonStaffForm()
+    return render(request, 'non_staff/non_staff_form.html', {'form': form})
+
+# List View
+def non_staff_list(request):
+    non_staffs = NonStaff.objects.all()
+    return render(request, 'non_staff/non_staff_list.html', {'non_staffs': non_staffs})
+
+# Update View
+def non_staff_update(request, non_staff_id):
+    non_staff = get_object_or_404(NonStaff, id=non_staff_id)
+    
+    if request.method == 'POST':
+        form = NonStaffForm(request.POST, instance=non_staff)
+        if form.is_valid():
+            form.save()
+            return redirect('non_staff_list')  # Redirect after update
+    else:
+        form = NonStaffForm(instance=non_staff)
+    
+    return render(request, 'non_staff/non_staff_form.html', {'form': form, 'non_staff': non_staff})
+
+# Delete View
+def non_staff_delete(request, non_staff_id):
+    non_staff = get_object_or_404(NonStaff, id=non_staff_id)
+    if request.method == 'POST':
+        non_staff.delete()
+        return redirect('non_staff_list')  # Redirect after deletion
+    return render(request, 'non_staff/non_staff_confirm_delete.html', {'non_staff': non_staff})

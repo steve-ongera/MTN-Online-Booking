@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Are you sure you want to delete this non-staff member?</h1>
+  <p>{{ non_staff.name }} - {{ non_staff.email }}</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+  </form>
+  <a href="{% url 'non_staff_list' %}">Cancel</a>
+{% endblock %}

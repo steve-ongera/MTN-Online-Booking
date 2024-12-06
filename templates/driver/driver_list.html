@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Drivers</h1>
+  <ul>
+    {% for driver in drivers %}
+      <li>
+        {{ driver.name }}  
+        <a href="{% url 'driver_update' driver.id %}">Edit</a>
+        <a href="{% url 'driver_delete' driver.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'driver_create' %}">Create a new driver</a>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Non-Staff Members</h1>
+  <ul>
+    {% for non_staff in non_staffs %}
+      <li>
+        {{ non_staff.name }} - {{ non_staff.email }}
+        <a href="{% url 'non_staff_update' non_staff.id %}">Edit</a>
+        <a href="{% url 'non_staff_delete' non_staff.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'non_staff_create' %}">Create a new non-staff member</a>
+{% endblock %}

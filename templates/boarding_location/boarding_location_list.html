@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Boarding Locations</h1>
+  <ul>
+    {% for location in boarding_locations %}
+      <li>
+        {{ location.name }}  
+        <a href="{% url 'boarding_location_update' location.id %}">Edit</a>
+        <a href="{% url 'boarding_location_delete' location.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'boarding_location_create' %}">Create a new boarding location</a>
+{% endblock %}

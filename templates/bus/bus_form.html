@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>{% if bus %}Update{% else %}Create{% endif %} Bus</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if bus %}Save changes{% else %}Create bus{% endif %}</button>
+  </form>
+  <a href="{% url 'bus_list' %}">Back to list</a>
+{% endblock %}

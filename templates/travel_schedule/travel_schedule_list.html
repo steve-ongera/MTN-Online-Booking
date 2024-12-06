@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Travel Schedules</h1>
+  <ul>
+    {% for schedule in schedules %}
+      <li>
+        {{ schedule }}  
+        <a href="{% url 'travel_schedule_update' schedule.id %}">Edit</a>
+        <a href="{% url 'travel_schedule_delete' schedule.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'travel_schedule_create' %}">Create a new schedule</a>
+{% endblock %}

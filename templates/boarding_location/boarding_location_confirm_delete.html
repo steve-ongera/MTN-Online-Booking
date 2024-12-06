@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Are you sure you want to delete this boarding location?</h1>
+  <p>{{ location.name }}</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirm Delete</button>
+  </form>
+  <a href="{% url 'boarding_location_list' %}">Cancel</a>
+{% endblock %}

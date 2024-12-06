@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Destinations</h1>
+  <ul>
+    {% for destination in destinations %}
+      <li>
+        {{ destination.name }}  
+        <a href="{% url 'destination_update' destination.id %}">Edit</a>
+        <a href="{% url 'destination_delete' destination.id %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'destination_create' %}">Create a new destination</a>
+{% endblock %}
