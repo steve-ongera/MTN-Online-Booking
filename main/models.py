@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 
 class Destination(models.Model):
     name = models.CharField(max_length=100)
-    fare = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
         return self.name
