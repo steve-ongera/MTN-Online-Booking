@@ -71,8 +71,15 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a href="{% url 'signUp'%}">Register</a></li>
-          <li><a class="get-a-quote" href="{% url 'login'%}">Login</a></li>
+          {% if user.is_authenticated %}
+              <!-- Show these links if the user is authenticated -->
+              <li><a href="#">Profile</a></li>
+              <li><a href="{% url 'signout' %}">Logout</a></li>
+            {% else %}
+              <!-- Show these links if the user is NOT authenticated -->
+              <li><a href="{% url 'signUp' %}">Register</a></li>
+              <li><a class="get-a-quote" href="{% url 'login' %}">Login</a></li>
+          {% endif %}
         </ul>
       </nav><!-- .navbar -->
 
