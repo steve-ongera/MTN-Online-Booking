@@ -1,16 +1,5 @@
 from django import forms
 from .models import *
-
-class SeatBookingForm(forms.ModelForm):
-    class Meta:
-        model = SeatBooking
-        fields = ['name', 'email', 'phone', 'destination', 'boarding_location', 'seats']
-
-
-
-
-from django import forms
-from .models import BoardingLocation, Destination
 from datetime import date
 
 class TravelScheduleSearchForm(forms.Form):
