@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Buses</title>
+
+{% extends 'main/base.html'%}
+{% load static %}
+{% block content %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
     <style>
         /* General Reset */
@@ -48,27 +46,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background-color: #fff;
-            margin: 10px auto;
-            max-width: 600px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        li:hover {
-            transform: scale(1.02);
-        }
-        li a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        
         li a:hover {
             text-decoration: underline;
         }
@@ -211,72 +189,100 @@
     background-color: #e65c50;
 }
 
-    </style>
+</style>
 </head>
 <body>
-    <h1>Search for Buses</h1>
-    <form method="GET" action="{% url 'search_buses' %}">
-        <label for="boarding_location">Boarding Location:</label>
-        <select id="boarding_location" name="boarding_location" required>
-            <option value="" disabled selected>Select Boarding Location</option>
-            {% for location in boarding_locations %}
-                <option value="{{ location.name }}">{{ location.name }}</option>
-            {% endfor %}
-        </select>
+    
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+        <div class="page-header d-flex align-items-center" style="background-image: url('assets/img/page-header.jpg');">
+          <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-6 text-center">
+                <h2 style="font-size: 30px;"> Search for Buses  </h2>
+                <p>Search for Buses</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nav>
+          <div class="container">
+            <ol>
+              <li><a href="{% url 'index'%}">Home</a></li>
+              <li><a href="#">Search for Buses </li>
+               
+            </ol>
+          </div>
+        </nav>
+      </div><!-- End Breadcrumbs -->
+  
+      <!-- ======= Contact Section ======= -->
+      <section id="contact" class="contact">
+         <div class="container" data-aos="fade-up">
 
-        <label for="destination">Destination:</label>
-        <select id="destination" name="destination" required>
-            <option value="" disabled selected>Select Destination</option>
-            {% for dest in destinations %}
-                <option value="{{ dest.name }}">{{ dest.name }}</option>
-            {% endfor %}
-        </select>
+            <form method="GET" action="{% url 'search_buses' %}">
+                <label for="boarding_location">Boarding Location:</label>
+                <select id="boarding_location" name="boarding_location" required>
+                    <option value="" disabled selected>Select Boarding Location</option>
+                    {% for location in boarding_locations %}
+                        <option value="{{ location.name }}">{{ location.name }}</option>
+                    {% endfor %}
+                </select>
 
-        <label for="date_of_travel">Date of Travel:</label>
-        <input type="text" id="date_of_travel" name="date_of_travel" placeholder="Select date" required>
+                <label for="destination">Destination:</label>
+                <select id="destination" name="destination" required>
+                    <option value="" disabled selected>Select Destination</option>
+                    {% for dest in destinations %}
+                        <option value="{{ dest.name }}">{{ dest.name }}</option>
+                    {% endfor %}
+                </select>
 
-        <button type="submit">Search</button>
-    </form>
+                <label for="date_of_travel">Date of Travel:</label>
+                <input type="text" id="date_of_travel" name="date_of_travel" placeholder="Select date" required>
 
-    <h2>Available Buses</h2>
+                <button type="submit">Search</button>
+            </form>
 
-    <div class="bus-list">
-        <!-- Example Bus Card -->
-        {% if buses %}
-                {% for bus in buses %}
-                <div class="bus-card">
-                    <div class="bus-icon">
-                        <i class="fa-solid fa-bus"></i>
-                    </div>
-                    <div class="bus-info">
-                        <h3> <a href="{% url 'bus_detail' bus.pk %}"> {{ bus.boarding_location.name }} -> {{ bus.destination.name }}</a></h3>
-                        <p>{{ bus.bus.name }} </p>
-                        <div class="amenities">
-                            <i class="fa-solid fa-wifi"></i>
-                            <i class="fa-solid fa-plug"></i>
-                            <i class="fa-solid fa-tv"></i>
-                            <span>{{ bus.date_of_travel }}</span>
+            <h2>Available Buses</h2>
+
+            <div class="bus-list">
+                <!-- Example Bus Card -->
+                {% if buses %}
+                        {% for bus in buses %}
+                        <div class="bus-card">
+                            <div class="bus-icon">
+                                <i class="fa-solid fa-bus"></i>
+                            </div>
+                            <div class="bus-info">
+                                <h3> <a href="{% url 'bus_detail' bus.pk %}"> {{ bus.boarding_location.name }} -> {{ bus.destination.name }}</a></h3>
+                                <p>{{ bus.bus.name }} </p>
+                                <div class="amenities">
+                                    <i class="fa-solid fa-wifi"></i>
+                                    <i class="fa-solid fa-plug"></i>
+                                    <i class="fa-solid fa-tv"></i>
+                                    <span>{{ bus.date_of_travel }}</span>
+                                </div>
+                            </div>
+                            <div class="bus-details">
+                                <p><strong>{{ bus.departure_time }} {{ bus.date_of_travel }}</strong> 08:30 AM</p>
+                                <p><strong>Rating:</strong> <span class="stars">★★★☆☆</span></p>
+                                <p><strong>Seats:</strong> <span class="seats">1 Seat Available</span></p>
+                                <p><strong>Normal:</strong> KES 1,600</p>
+                            </div>
+                            <div class="bus-actions">
+                                <a href="{% url 'bus_detail' bus.pk %}">
+                                <button class="view-seats-button">View Seats</button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bus-details">
-                        <p><strong>{{ bus.departure_time }} {{ bus.date_of_travel }}</strong> 08:30 AM</p>
-                        <p><strong>Rating:</strong> <span class="stars">★★★☆☆</span></p>
-                        <p><strong>Seats:</strong> <span class="seats">1 Seat Available</span></p>
-                        <p><strong>Normal:</strong> KES 1,600</p>
-                    </div>
-                    <div class="bus-actions">
-                        <a href="{% url 'bus_detail' bus.pk %}">
-                          <button class="view-seats-button">View Seats</button>
-                        </a>
-                    </div>
-                </div>
-                {% endfor %}
-        {% else %}
-        <p class="no-results">No buses available for the selected route and date.</p>
-        {% endif %}
-        <!-- Repeat similar cards -->
-    </div>
-
+                        {% endfor %}
+                {% else %}
+                <p class="no-results">No buses available for the selected route and date.</p>
+                {% endif %}
+                <!-- Repeat similar cards -->
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
 
 
@@ -306,4 +312,4 @@
 </script>
 
 </body>
-</html>
+{% endblock %}

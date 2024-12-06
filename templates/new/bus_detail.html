@@ -12,72 +12,183 @@
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet">
 
- 
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f8f9fa;
+      padding: 15px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      display: flex;
+      margin-top: 20px;
+    }
+
+    .bus-details {
+      width: 33.33%;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    .seat-selection {
+      width: 66.66%;
+      padding: 20px;
+    }
+
+    .footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .seat.unavailable {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .seat.unavailable img {
+      filter: grayscale(100%) brightness(50%);
+    }
+
+    /* Responsive Layout for Small Screens */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .container {
+      flex-direction: column;
+    }
+
+    .bus-details,
+    .seat-selection {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .footer {
+      position: static;
+      padding: 10px;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .navbar {
+      padding: 10px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+    }
+
+    .bus-details h2,
+    .seat-selection h3 {
+      font-size: 16px;
+    }
+
+    .buy-btn {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  }
+  </style>
 </head>
 
-
-  
 <body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>MTN SACCO</h1>
+    </div>
+    <div class="nav-links">
+      <a href="{% url 'index' %}" class="btn btn-outline-primary">Home</a>
+      <a href="#" class="btn btn-outline-primary">Bookings</a>
+      <a href="#" class="btn btn-outline-primary">Contact</a>
+    </div>
+  </nav>
 
-  <!-- Display Bus Schedule Details -->
-  <div>
-    <h2>Bus Name: {{ bus_schedule.bus.name }}</h2>
-    <p>From: {{ bus_schedule.boarding_location.name }}</p>
-    <p>To: {{ bus_schedule.destination.name }}</p>
-    <p>Date of Travel: {{ bus_schedule.date_of_travel }}</p>
-    <p>Departure Time: {{ bus_schedule.departure_time }}</p>
-</div>
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Bus Details Section -->
+    <div class="bus-details">
+      <h2>Bus Name: {{ bus_schedule.bus.name }}</h2>
+      <p>From: {{ bus_schedule.boarding_location.name }}</p>
+      <p>To: {{ bus_schedule.destination.name }}</p>
+      <p>Date of Travel: {{ bus_schedule.date_of_travel }}</p>
+      <p>Departure Time: {{ bus_schedule.departure_time }}</p>
 
+      <h3>Available Seats</h3>
+      <p>
+        {% if available_seats %}
+            {{ available_seats|join:", " }}
+        {% else %}
+            No seats available.
+        {% endif %}
+      </p>
+    </div>
 
- <!-- Display List of Available Seats -->
- <div>
-    <h3>Available Seats</h3>
-    <p>
-      {% if available_seats %}
-          {{ available_seats|join:", " }}
-      {% else %}
-          No seats available.
-      {% endif %}
-  </p>
-  </div>  
+    <!-- Seat Selection Section -->
+    <div class="seat-selection">
+      <div class="minibus-container">
+        <div class="minibus">
+          <div class="row">
+            <div class="seat" data-seat="1"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 1"><span>1</span></div>
+            <div class="seat" data-seat="2"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 2"><span>2</span></div>
+            <div class="empty"></div>
+            <img src="{% static 'assets/img/stear.svg' %}" alt="" class="steering-wheel">
+          </div>
+          <div class="row">
+            <div class="empty"></div>
+            <div class="seat" data-seat="3"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 3"><span>3</span></div>
+            <div class="seat" data-seat="4"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 4"><span>4</span></div>
+            <div class="seat" data-seat="5"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 5"><span>5</span></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-seat="6"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 6"><span>6</span></div>
+            <div class="empty"></div>
+            <div class="seat" data-seat="7"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 7"><span>7</span></div>
+            <div class="seat" data-seat="8"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 8"><span>8</span></div>
+          </div>
+          <div class="row">
+            <div class="seat" data-seat="9"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 9"><span>9</span></div>
+            <div class="seat" data-seat="10"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 10"><span>10</span></div>
+            <div class="seat" data-seat="11"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 11"><span>11</span></div>
+            <div class="seat" data-seat="12"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 12"><span>12</span></div>
+          </div>
+        </div>
+      </div>
 
-  <div class="minibus-container">
-    <div class="minibus">
-      <div class="row">
-        <div class="seat" data-seat="1"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 1"><span>1</span></div>
-        <div class="seat" data-seat="2"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 2"><span>2</span></div>
-        <div class="empty"></div>
-        <img src="{% static 'assets/img/stear.svg' %}" alt="" class="steering-wheel">
-      </div>
-      <div class="row">
-        <div class="empty"></div>
-        <div class="seat" data-seat="3"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 3"><span>3</span></div>
-        <div class="seat" data-seat="4"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 4"><span>4</span></div>
-        <div class="seat" data-seat="5"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 5"><span>5</span></div>
-      </div>
-      <div class="row">
-        <div class="seat" data-seat="6"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 6"><span>6</span></div>
-        <div class="empty"></div>
-        <div class="seat" data-seat="7"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 7"><span>7</span></div>
-        <div class="seat" data-seat="8"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 8"><span>8</span></div>
-      </div>
-      <div class="row">
-        <div class="seat" data-seat="9"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 9"><span>9</span></div>
-        <div class="seat" data-seat="10"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 10"><span>10</span></div>
-        <div class="seat" data-seat="11"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 11"><span>11</span></div>
-        <div class="seat" data-seat="12"><img src="{% static 'assets/img/seat.svg' %}" alt="Seat 12"><span>12</span></div>
-      </div>
+      <button class='buy-btn' onclick="redirectToBooking({{ bus_schedule.pk }})">Proceed to Book</button>
     </div>
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 
-  <button class='buy-btn' onclick="redirectToBooking({{ bus_schedule.pk }})">Proceed to Book</button>
-
-  
-
-  <a class='buy-btn' href={% url 'index'%}> Home</a>
-  
-
-
+  <!-- Footer -->
+  <footer class="footer">
+    <div>
+      <p>&copy; 2024 MTN SACCO. All Rights Reserved.</p>
+      <p>Contact: +254 XXX XXX XXX | Email: info@mtnsacco.com</p>
+    </div>
+  </footer>
 
   <script>
     let selectedSeat = null;
@@ -148,8 +259,5 @@
     }
     
 </style>
-
-  
 </body>
 </html>
-

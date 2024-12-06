@@ -1,10 +1,7 @@
+{% extends "main/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="utf-8">
-   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-   <title>MTN SACCO</title>
+{% block content %}
+
    <link href="{% static 'assets/css/styles.css' %}" rel="stylesheet">
    <style>
        .seat.booked {
@@ -23,7 +20,7 @@
            font-weight: bold;
        }
    </style>
-</head>
+
 <body>
    <div class="minibus-container">
        <div class="minibus">
@@ -141,4 +138,4 @@
        }
    </script>
 </body>
-</html>
+{% endblock %}
