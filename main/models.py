@@ -1,5 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+import string
+from django.db import models
+from django.utils.crypto import get_random_string
+#from .signals import create_seats_for_schedule
+
 
 
 class Destination(models.Model):
@@ -66,10 +72,6 @@ class Seat(models.Model):
           bus_name = self.bus.name if self.bus else "No Bus Assigned"
           return f"Seat: {self.seat_number} (Bus: {bus_name}, Reserved: {self.is_reserved})"
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['seat_number', 'bus'], name='unique_seat_per_bus')
-        ]
 
     
 class Booking(models.Model):
@@ -79,12 +81,25 @@ class Booking(models.Model):
     phone = models.CharField(max_length=100)
     fare = models.DecimalField(max_digits=10 , decimal_places=2)
     identification_number = models.CharField(max_length=50)
+    booking_order_id = models.CharField(max_length=12, unique=True, blank=True, null=True)  # New field
+
+    def generate_booking_order_id(self):
+        """Generates a unique alphanumeric booking order ID."""
+        characters = string.ascii_uppercase + string.digits
+        booking_id = ''.join(random.choices(characters, k=8))  # generates 8-character ID
+        return booking_id
+
+    def save(self, *args, **kwargs):
+        if not self.booking_order_id:  # Generate the booking ID only if not already set
+            self.booking_order_id = self.generate_booking_order_id()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         # Check if seat is assigned and if it has the necessary attributes
         seat_number = self.seat.seat_number if self.seat and self.seat.seat_number else "No seat assigned"
         return f"{self.name} - {self.email}: Seat number --> {seat_number}"
 
+        
 
 class NonStaff(models.Model):
     name = models.CharField(max_length=50)

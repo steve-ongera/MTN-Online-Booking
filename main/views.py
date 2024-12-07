@@ -339,7 +339,7 @@ def bus_detail(request, pk):
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Booking
-from .utils import generate_pdf_receipt, send_receipt_email
+from .utils import generate_professional_ticket_pdf, send_professional_ticket_email
 
 def payment_confirmation(request, booking_id):
     try:
@@ -347,10 +347,10 @@ def payment_confirmation(request, booking_id):
         booking = Booking.objects.get(id=booking_id)
 
         # Generate the PDF receipt
-        pdf_buffer = generate_pdf_receipt(booking)
+        pdf_buffer = generate_professional_ticket_pdf(booking)
 
         # Send the receipt as an email attachment
-        send_receipt_email(booking, pdf_buffer)
+        send_professional_ticket_email(booking, pdf_buffer)
 
         # Render the payment confirmation page
         return render(request, 'payment_confirmation.html', {'booking': booking})
