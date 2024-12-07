@@ -2,12 +2,12 @@ import os
 from django.core.mail import EmailMessage
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image as RLImage
 from reportlab.lib import colors
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics.barcode import qr
 from reportlab.lib.units import inch
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from io import BytesIO
 from django.conf import settings
 from PIL import Image
@@ -16,6 +16,9 @@ def generate_professional_ticket_pdf(booking):
     """
     Generates a professional, visually appealing PDF ticket with QR code
     """
+    # Generate a custom filename
+    pdf_filename = f"{booking.booking_order_id}_{booking.name.replace(' ', '_')}_ticket.pdf"
+
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     styles = getSampleStyleSheet()
@@ -34,8 +37,34 @@ def generate_professional_ticket_pdf(booking):
         fontSize=12,
         textColor=colors.darkblue
     ))
+    styles.add(ParagraphStyle(
+        name='CenteredInfo',
+        parent=styles['Normal'],
+        alignment=TA_CENTER,
+        fontSize=10,
+        textColor=colors.darkgray
+    ))
 
     elements = []
+
+    # Logo Handling
+    logo_path = os.path.join(settings.MEDIA_ROOT, 'logo.png')
+    if os.path.exists(logo_path):
+        try:
+            logo = RLImage(logo_path, width=2*inch, height=2*inch)
+            logo.hAlign = 'CENTER'
+            elements.append(logo)
+            
+            # Bus Name and Seat Number below logo
+            bus_info = Paragraph(
+                f"{booking.seat.bus_schedule.bus.name} - {booking.seat.bus_schedule.bus.plate_number}<br/>" +
+                f"Seat Number: {booking.seat.seat_number}", 
+                styles['CenteredInfo']
+            )
+            elements.append(bus_info)
+            elements.append(Spacer(1, 12))
+        except Exception as e:
+            print(f"Error loading logo: {e}")
 
     # Header Section
     header_data = [
@@ -56,6 +85,7 @@ def generate_professional_ticket_pdf(booking):
     ticket_details = [
         ['Booking ID', f"# {booking.booking_order_id}"],
         ['Passenger Name', booking.name],
+        ['Bus', f"{booking.seat.bus_schedule.bus.name} - {booking.seat.bus_schedule.bus.plate_number}"],
         ['Travel Route', f"{booking.seat.bus_schedule.boarding_location} → {booking.seat.bus_schedule.destination}"],
         ['Date of Travel', booking.seat.bus_schedule.date_of_travel.strftime('%d %b %Y')],
         ['Departure Time', booking.seat.bus_schedule.departure_time.strftime('%I:%M %p')],
@@ -110,12 +140,15 @@ def generate_professional_ticket_pdf(booking):
     # Build PDF
     doc.build(elements)
     buffer.seek(0)
-    return buffer
+    return buffer, pdf_filename
 
 def send_professional_ticket_email(booking, pdf_buffer):
     """
     Sends a professional email with the generated ticket PDF
     """
+    # Generate PDF with custom filename
+    pdf_buffer, pdf_filename = generate_professional_ticket_pdf(booking)
+
     subject = f'Your Travel Ticket - Booking #{booking.booking_order_id}'
     message = f"""
     Dear {booking.name},
@@ -143,5 +176,5 @@ def send_professional_ticket_email(booking, pdf_buffer):
         settings.DEFAULT_FROM_EMAIL,  # Sender's email
         [booking.email]  # Recipient's email
     )
-    email.attach('travel_ticket.pdf', pdf_buffer.read(), 'application/pdf')
+    email.attach(pdf_filename, pdf_buffer.read(), 'application/pdf')
     email.send()

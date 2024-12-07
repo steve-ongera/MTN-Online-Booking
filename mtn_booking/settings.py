@@ -113,6 +113,10 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR , 'static')
 ]
 
+# Media settings
+MEDIA_URL = '/media/'  # URL for serving media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # The physical location of media files on the server
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
