@@ -256,7 +256,7 @@
                                 <i class="fa-solid fa-bus"></i>
                             </div>
                             <div class="bus-info">
-                                <h3> <a href="{% url 'bus_detail' bus.pk %}"> {{ bus.boarding_location.name }} -> {{ bus.destination.name }}</a></h3>
+                                <h3> <a href="{% url 'bus_detail' bus.pk %}"> {{ bus.boarding_location.name }} to {{ bus.destination.name }}</a></h3>
                                 <p>{{ bus.bus.name }} </p>
                                 <div class="amenities">
                                     <i class="fa-solid fa-wifi"></i>
