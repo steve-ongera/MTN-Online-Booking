@@ -20,6 +20,6 @@ admin.site.register(Driver)
 admin.site.register(NonStaff)
 admin.site.register(Bus)
 admin.site.register(TravelSchedule)
-admin.site.site_header='MTN SACCO'
-admin.site.site_title='MTN Sacco'
-admin.site.index_title='Welcome to MTN Admin Panel'
+admin.site.site_header='mtn sacco'
+admin.site.site_title='mtn sacco '
+admin.site.index_title='mtn sacco | 2024 '
