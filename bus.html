@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Schedule</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Bus Card */
+        .bus-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        /* Bus Info */
+        .bus-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bus-icon img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .route-info h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .route-info p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .amenities span {
+            display: inline-block;
+            background-color: #eee;
+            color: #555;
+            padding: 5px 10px;
+            margin: 3px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        /* Schedule Info */
+        .schedule-info {
+            text-align: center;
+        }
+
+        .schedule-info p {
+            font-size: 14px;
+            color: #444;
+        }
+
+        /* Price Info */
+        .price-info {
+            text-align: center;
+        }
+
+        .price-info p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .view-seats {
+            padding: 10px 20px;
+            background-color: #e53935;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .view-seats:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Responsive Design - Ensure layout is same but adjusted */
+        @media (max-width: 768px) {
+            /* Keep the flex layout, but scale the bus card down */
+            .bus-card {
+                font-size: 14px; /* Slightly smaller font size */
+                padding: 10px; /* Slightly smaller padding */
+            }
+
+            /* Make font sizes and paddings smaller for readability on smaller screens */
+            .route-info h3 {
+                font-size: 16px;
+            }
+
+            .route-info p,
+            .schedule-info p,
+            .price-info p {
+                font-size: 12px;
+            }
+
+          
+            /* Responsive Design - Button Adjustment */
+
+            .view-seats {
+                font-size: 12px; /* Smaller font size */
+                padding: 8px 16px; /* Smaller padding */
+            }
+
+
+
+            /* Adjust spacing to make sure items are compact but still aligned */
+            .bus-info {
+                gap: 10px;
+            }
+
+            .bus-icon img {
+                width: 40px; /* Smaller icon size */
+                height: 40px;
+            }
+
+            /* Ensure there is no layout shift */
+            .schedule-info, .price-info {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bus-card">
+            <div class="bus-info">
+                <div class="bus-icon">
+                    <i class="bi bi-bus-front" style="font-size: 2rem; color: #555;"></i>
+                </div>
+                <div class="route-info">
+                    <h3>Nairobi to Mombasa</h3>
+                    <p>48 Seater</p>
+                    <div class="amenities">
+                        <i class="bi bi-wifi" title="WiFi"></i>
+                        <i class="bi bi-usb" title="USB charging"></i>
+                        <i class="bi bi-geo-alt" title="GPS"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="schedule-info">
+                <p><strong>Departure Time:</strong> 08:30 AM</p>
+                <p><strong>Rating:</strong> ★★★☆☆</p>
+                <p><strong>48 Seats Available</strong></p>
+            </div>
+            <div class="price-info">
+                <p><strong>Normal:</strong> KES 2,700</p>
+                <button class="view-seats">View Seats</button>
+            </div>
+        </div>
+
+        <div class="bus-card">
+            <div class="bus-info">
+                <div class="bus-icon">
+                    <i class="bi bi-bus-front" style="font-size: 2rem; color: #555;"></i>
+                </div>
+                <div class="route-info">
+                    <h3>Nairobi to Mombasa</h3>
+                    <p>48 Seater</p>
+                    <div class="amenities">
+                        <i class="bi bi-wifi" title="WiFi"></i>
+                        <i class="bi bi-usb" title="USB charging"></i>
+                        <i class="bi bi-geo-alt" title="GPS"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="schedule-info">
+                <p><strong>Departure Time:</strong> 08:30 AM</p>
+                <p><strong>Rating:</strong> ★★★☆☆</p>
+                <p><strong>48 Seats Available</strong></p>
+            </div>
+            <div class="price-info">
+                <p><strong>Normal:</strong> KES 2,700</p>
+                <button class="view-seats">View Seats</button>
+            </div>
+        </div>
+
+        <div class="bus-card">
+            <div class="bus-info">
+                <div class="bus-icon">
+                    <i class="bi bi-bus-front" style="font-size: 2rem; color: #555;"></i>
+                </div>
+                <div class="route-info">
+                    <h3>Nairobi to Mombasa</h3>
+                    <p>48 Seater</p>
+                    <div class="amenities">
+                        <i class="bi bi-wifi" title="WiFi"></i>
+                        <i class="bi bi-usb" title="USB charging"></i>
+                        <i class="bi bi-geo-alt" title="GPS"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="schedule-info">
+                <p><strong>Departure Time:</strong> 08:30 AM</p>
+                <p><strong>Rating:</strong> ★★★☆☆</p>
+                <p><strong>48 Seats Available</strong></p>
+            </div>
+            <div class="price-info">
+                <p><strong>Normal:</strong> KES 2,700</p>
+                <button class="view-seats">View Seats</button>
+            </div>
+        </div>
+
+        <!-- Duplicate the .bus-card as needed for additional entries -->
+    </div>
+</body>
+</html>
